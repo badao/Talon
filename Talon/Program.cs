@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +20,8 @@ namespace Talon
         private static Spell Q, W, E, R;
 
         private static Menu Menu;
+
+        private static float l;
 
         static void Main(string[] args)
         {
@@ -83,12 +85,19 @@ namespace Talon
             if(spell.Name.Contains("ItemTiamatCleave"))
             {
                 //Game.PrintChat("yes");
-                var x = Player.Position;
-                Utility.DelayAction.Add(100, () => Q.Cast(x));
-
+                //var x = Player.Position;
+                //Utility.DelayAction.Add(100, () => Q.Cast(x));
+                if (Q.IsReady())
+                {
+                    if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo || Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
+                    {
+                        l = 1;
+                    }
+                }
             }
             if ( spell.Name.Contains("TalonNoxianDiplomacy"))
             {
+                l = 0;
                 Utility.DelayAction.Add(30, () => Orbwalking.ResetAutoAttackTimer());
             }
         }
@@ -113,10 +122,22 @@ namespace Talon
                 }
             }
         }
+        public static void Qitem()
+        {
+            if(l ==1 )
+            {
+                var x = Player.Position;
+                Q.Cast(x);
+            }
+        }
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (Player.IsDead)
                 return;
+            //if (Player.IsWindingUp)
+            //{
+            //    Game.PrintChat("heis");
+            //}
             //foreach (var buff in Player.Buffs)
             //{
             //    string x = "";
@@ -128,7 +149,8 @@ namespace Talon
             //    Game.PrintChat("alright");
             //}
             //Game.PrintChat(R.Instance.Name);
-            if (Selected() == true && !Orbwalker.InAutoAttackRange(TargetSelector.GetSelectedTarget()))
+            Qitem();
+            if (Selected() == true && !Orbwalker.InAutoAttackRange(TargetSelector.GetSelectedTarget()) && !Player.IsWindingUp)
             {
                 Orbwalker.SetAttack(false);
             }
