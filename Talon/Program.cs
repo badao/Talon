@@ -84,6 +84,7 @@ namespace Talon
             //Game.PrintChat(spell.Name);
             if(spell.Name.Contains("ItemTiamatCleave"))
             {
+                 Game.Say("/l");
                 //Game.PrintChat("yes");
                 //var x = Player.Position;
                 //Utility.DelayAction.Add(100, () => Q.Cast(x));
