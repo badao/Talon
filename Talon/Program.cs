@@ -71,7 +71,7 @@ namespace Talon
 
             //Drawing.OnDraw += Drawing_OnDraw;
 
-            Game.OnGameUpdate += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnGameUpdate;
             Orbwalking.AfterAttack += AfterAttack;
             Obj_AI_Base.OnProcessSpellCast += oncast;
             Game.PrintChat("Welcome to TalonWorld");
